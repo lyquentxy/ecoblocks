@@ -1,0 +1,52 @@
+# Android
+android/app/build/
+android/app/.gradle/
+android/**/local.properties
+*.apk
+*.aab
+*.keystore
+
+# Blockly
+android/blockly/node_modules/
+android/blockly/dist/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+.gradle/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Build artifacts
+build/
+out/
+*.o
+*.elf
+*.hex
+*.bin
+
+# Hardware design
+hardware/**/*.bak
+hardware/**/*.b#?
+hardware/**/*.s#?
+hardware/**/__Previews/
+
+# Python
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+# Docs output
+docs/_build/
+
+# Claude
+.claude/
+
+# Environment
+.env
+.env.local
