@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EcoBlocks Test</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100%; height: 100%; overflow: hidden; }
+  #blocklyDiv { width: 100%; height: 100%; }
+</style>
+</head>
+<body>
+<div id="blocklyDiv"></div>
+
+<xml id="toolbox" style="display: none">
+  <category name="传感器" colour="#5b8c5a">
+    <block type="text"></block>
+  </category>
+  <category name="执行器" colour="#8c5a5a">
+    <block type="text"></block>
+  </category>
+  <category name="逻辑" colour="#5a6b8c">
+    <block type="controls_if"></block>
+  </category>
+</xml>
+
+<script src="https://registry.npmmirror.com/blockly/11.0.0/files/blockly.min.js"></script>
+<script>
+  const toolbox = document.getElementById('toolbox');
+  const workspace = Blockly.inject('blocklyDiv', {
+    toolbox: Blockly.utils.xml.textToDom(toolbox.innerHTML),
+    scrollbars: true,
+    trashcan: true,
+  });
+  console.log('Blockly ready');
+</script>
+</body>
+</html>

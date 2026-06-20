@@ -6,9 +6,20 @@ android/**/local.properties
 *.aab
 *.keystore
 
+# Flutter
+.dart_tool/
+.flutter-plugins*
+*.iml
+pubspec.lock
+
 # Blockly
-android/blockly/node_modules/
-android/blockly/dist/
+blockly/node_modules/
+blockly/dist/
+
+# App build
+app/build/
+app/android/.gradle/
+app/android/local.properties
 
 # IDE
 .idea/
@@ -46,6 +57,9 @@ docs/_build/
 
 # Claude
 .claude/
+
+# Project-local caches
+.cache/
 
 # Environment
 .env

@@ -1,0 +1,19 @@
+{
+  "name": "ecoblocks-blockly",
+  "version": "0.1.0",
+  "description": "EcoBlocks Blockly 可视化引擎 — 水墨主题 + 自定义积木块",
+  "private": true,
+  "scripts": {
+    "build": "webpack --mode production",
+    "dev": "webpack --mode development --watch"
+  },
+  "dependencies": {
+    "blockly": "^11.0.0"
+  },
+  "devDependencies": {
+    "webpack": "^5.90.0",
+    "webpack-cli": "^5.1.0",
+    "copy-webpack-plugin": "^12.0.0",
+    "html-webpack-plugin": "^5.6.0"
+  }
+}

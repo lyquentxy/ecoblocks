@@ -1,0 +1,49 @@
+buildscript {
+    ext.kotlin_version = '1.9.0'
+    repositories {
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:8.1.0'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+allprojects {
+    repositories {
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+    }
+}
+
+rootProject.buildDir = '../build'
+subprojects {
+    project.buildDir = "${rootProject.buildDir}/${project.name}"
+    project.evaluationDependsOn(':app')
+}
+
+// AGP 8.x namespace 补丁 — 旧插件（flutter_inappwebview 5.x）补 namespace
+gradle.projectsEvaluated {
+    subprojects { sub ->
+        if (sub.plugins.hasPlugin('com.android.library') || sub.plugins.hasPlugin('com.android.application')) {
+            def androidExt = sub.extensions.findByName('android')
+            if (androidExt?.namespace == null) {
+                def manifestFile = sub.file('src/main/AndroidManifest.xml')
+                if (manifestFile.exists()) {
+                    def manifest = new XmlSlurper().parse(manifestFile)
+                    def pkg = manifest.@package.toString()
+                    if (pkg && !pkg.isEmpty()) {
+                        androidExt.namespace = pkg
+                    }
+                }
+            }
+        }
+    }
+}
+
+tasks.register("clean", Delete) {
+    delete rootProject.buildDir
+}
