@@ -22,4 +22,7 @@ flutter:
 
   assets:
     - assets/blockly/index.html
+    - assets/blockly/ink_style.css
+    - assets/blockly/bridge_runtime.js
     - assets/blockly/ecoblocks.js
+    - assets/blockly/agent_overlay.js

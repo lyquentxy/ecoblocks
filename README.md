@@ -66,7 +66,7 @@ ecoblocks/
 
 ## 技术栈
 
-- **主控**: Android 4.4+ (手机 / 电视盒子 / RK3566 / 树莓派Android / 工控主机)
+- **主控**: Android 5.0+ (手机 / 电视盒子 / RK3566 / 树莓派Android / 工控主机)
 - **总线**: CAN Bus / RS-485 Modbus
 - **Blockly**: 开源 Blockly 魔改
 - **存储**: SQLite (本地)

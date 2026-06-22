@@ -1,12 +1,7 @@
-/// Dart ↔ Blockly JS 桥接消息协议。
-///
-/// 方向：
-///   Dart → JS: "sensor_update", "actuator_state"
-///   JS → Dart: "block_clicked", "rule_changed"
-
+import '../agents/device_profile.dart';
 import '../models/mock_device.dart';
 
-/// Dart 发给 Blockly 的消息。
+/// Dart -> Blockly JS messages.
 sealed class ToBlockly {
   Map<String, dynamic> toJson();
 }
@@ -33,13 +28,40 @@ class ActuatorState implements ToBlockly {
       };
 }
 
-/// Blockly 发给 Dart 的消息。
+class DeviceProfileMessage implements ToBlockly {
+  final DeviceProfile profile;
+  const DeviceProfileMessage(this.profile);
+
+  @override
+  Map<String, dynamic> toJson() => {
+        'type': 'device_profile',
+        'profile': profile.toJson(),
+      };
+}
+
+class AgentStatusMessage implements ToBlockly {
+  final String status;
+  final String message;
+  const AgentStatusMessage(this.status, this.message);
+
+  @override
+  Map<String, dynamic> toJson() => {
+        'type': 'agent_status',
+        'status': status,
+        'message': message,
+      };
+}
+
+/// Blockly JS -> Dart messages.
 sealed class FromBlockly {
   const FromBlockly();
 
   factory FromBlockly.fromJson(Map<String, dynamic> json) {
     return switch (json['type'] as String) {
-      'block_clicked' => BlockClicked(json['block_id'] as String, json['block_type'] as String),
+      'block_clicked' => BlockClicked(
+          json['block_id'] as String,
+          json['block_type'] as String,
+        ),
       'rule_changed' => RuleChanged(json['rule_count'] as int),
       _ => UnknownMessage(json),
     };

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'pages/workspace_page.dart';
 
 void main() {
@@ -24,9 +25,8 @@ class EcoBlocksApp extends StatelessWidget {
     return ThemeData(
       brightness: brightness,
       primarySwatch: Colors.teal,
-      scaffoldBackgroundColor: isDark
-          ? const Color(0xFF1a1815)
-          : const Color(0xFFf5f0e8), // 宣纸色
+      scaffoldBackgroundColor:
+          isDark ? const Color(0xFF1a1815) : const Color(0xFFf5f0e8),
     );
   }
 }

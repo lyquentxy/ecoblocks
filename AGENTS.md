@@ -1,4 +1,4 @@
-# EcoBlocks — Claude 工作指南
+# EcoBlocks — Codex 工作指南
 
 ## 项目定位
 

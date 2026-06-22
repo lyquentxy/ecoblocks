@@ -1,6 +1,13 @@
-/// EcoBlocks 核心库
+/// EcoBlocks core library.
 ///
-/// 零 Flutter 依赖。提供设备模型和 Dart↔Blockly 桥接协议。
-
+/// Pure Dart. It contains mock models, the Blockly bridge protocol, and the
+/// first abstract AI agent runtime.
 export 'models/mock_device.dart';
 export 'bridge/bridge_message.dart';
+export 'agents/agent_event.dart';
+export 'agents/agent_runtime.dart';
+export 'agents/deepseek_agent.dart';
+export 'agents/device_agent.dart';
+export 'agents/device_profile.dart';
+export 'agents/mock_agent.dart';
+export 'agents/scanned_device.dart';

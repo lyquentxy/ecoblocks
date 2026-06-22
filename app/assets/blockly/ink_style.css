@@ -1,0 +1,168 @@
+:root {
+  --ink-paper: #f4efe4;
+  --ink-paper-deep: #e7dcc8;
+  --ink: #18231f;
+  --ink-soft: #52635a;
+  --ink-line: rgba(37, 49, 43, 0.22);
+  --ink-wash: rgba(46, 71, 61, 0.10);
+  --ink-panel: rgba(250, 247, 239, 0.88);
+  --ink-panel-strong: rgba(243, 238, 227, 0.96);
+}
+
+html,
+body {
+  color: var(--ink);
+  background:
+    linear-gradient(90deg, rgba(46, 43, 35, .035) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(46, 43, 35, .028) 1px, transparent 1px),
+    var(--ink-paper);
+  background-size: 28px 28px, 28px 28px, auto;
+  font-family: "LXGW WenKai", "STKaiti", "KaiTi", "Songti SC", system-ui, sans-serif;
+}
+
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body::before {
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 12% 18%, rgba(31, 44, 39, .13), transparent 34%),
+    radial-gradient(ellipse at 86% 72%, rgba(39, 55, 49, .10), transparent 38%),
+    linear-gradient(135deg, rgba(255,255,255,.18), transparent 58%);
+  filter: blur(12px);
+}
+
+body::after {
+  left: 0;
+  top: 0;
+  width: 44%;
+  height: 100%;
+  background:
+    linear-gradient(90deg, rgba(32, 37, 33, .11), transparent 64%),
+    linear-gradient(180deg, rgba(96, 112, 94, .08), transparent 40%);
+  mix-blend-mode: multiply;
+}
+
+#blocklyArea,
+#blocklyDiv {
+  position: relative;
+  z-index: 1;
+}
+
+.blocklySvg {
+  background: transparent !important;
+}
+
+.blocklyMainBackground {
+  fill: transparent !important;
+  stroke: rgba(28, 39, 34, 0.12) !important;
+}
+
+.blocklyToolboxDiv {
+  background: rgba(244, 239, 228, 0.82) !important;
+  border-right: 1px solid var(--ink-line);
+  box-shadow: 12px 0 28px rgba(34, 39, 35, 0.08);
+  backdrop-filter: blur(8px);
+}
+
+.blocklyFlyout {
+  filter: drop-shadow(8px 0 18px rgba(23, 32, 28, 0.12));
+}
+
+.blocklyFlyoutBackground {
+  fill: rgba(250, 247, 239, 0.90) !important;
+  stroke: rgba(37, 49, 43, 0.16) !important;
+}
+
+.blocklyTreeRow {
+  border-radius: 8px;
+  margin: 5px 8px;
+  height: 34px !important;
+  line-height: 34px !important;
+  transition: background 140ms ease, transform 140ms ease;
+}
+
+.blocklyTreeRow:hover,
+.blocklyTreeSelected {
+  background: rgba(42, 62, 53, 0.12) !important;
+}
+
+.blocklyTreeSelected {
+  transform: translateX(2px);
+}
+
+.blocklyTreeLabel {
+  color: var(--ink) !important;
+  font-size: 14px !important;
+  letter-spacing: 0 !important;
+}
+
+.blocklyPath {
+  stroke: rgba(17, 24, 21, 0.18) !important;
+  stroke-width: 1.2px !important;
+  filter: drop-shadow(0 8px 12px rgba(20, 26, 23, 0.16));
+}
+
+.blocklyText,
+.blocklyHtmlInput {
+  fill: #f9f6ee !important;
+  color: #f9f6ee !important;
+  font-family: "LXGW WenKai", "STKaiti", "KaiTi", system-ui, sans-serif !important;
+  letter-spacing: 0 !important;
+}
+
+.blocklyScrollbarHandle {
+  fill: rgba(42, 62, 53, 0.36) !important;
+}
+
+.blocklyTrash,
+.blocklyZoom {
+  opacity: .72;
+}
+
+#agentPanel {
+  position: absolute;
+  right: 18px;
+  top: 18px;
+  z-index: 20;
+  width: 280px;
+  color: var(--ink);
+  background: var(--ink-panel);
+  border: 1px solid var(--ink-line);
+  border-radius: 12px;
+  box-shadow: 0 18px 44px rgba(25, 31, 28, 0.15);
+  padding: 12px;
+  backdrop-filter: blur(10px);
+  font: 13px/1.45 "LXGW WenKai", "STKaiti", "KaiTi", system-ui, sans-serif;
+}
+
+#agentPanel::before {
+  content: "";
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  top: 7px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(33, 45, 39, .32), transparent);
+}
+
+.agent-title {
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+#agentStatus {
+  color: var(--ink-soft);
+  margin-bottom: 8px;
+}
+
+.agent-profile {
+  border-top: 1px solid rgba(75, 91, 78, .18);
+  padding-top: 8px;
+  margin-top: 8px;
+}
