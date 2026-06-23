@@ -6,21 +6,21 @@ plugins {
 
 android {
     namespace = "com.ecoblocks"
-    compileSdk = 34
+    compileSdk = libs.versions.compileSdk.get().toInteger()
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.toVersion(libs.versions.javaSource.get())
+        targetCompatibility = JavaVersion.toVersion(libs.versions.javaSource.get())
     }
 
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = libs.versions.javaSource.get()
     }
 
     defaultConfig {
         applicationId = "com.ecoblocks"
-        minSdk = 21
-        targetSdk = 34
+        minSdk = libs.versions.minSdkModern.get().toInteger()
+        targetSdk = libs.versions.targetSdk.get().toInteger()
         versionCode = 1
         versionName = "0.1.0"
     }

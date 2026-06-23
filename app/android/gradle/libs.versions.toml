@@ -1,0 +1,7 @@
+[versions]
+compileSdk = "34"
+targetSdk = "34"
+minSdkModern = "21"
+javaSource = "1.8"
+jdkRuntime = "21"
+ndk = "27.2.12479018"

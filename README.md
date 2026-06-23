@@ -33,6 +33,7 @@ ecoblocks/
 ```
 
 See [docs/repository.md](docs/repository.md) for the full directory map.
+See [docs/toolchain.md](docs/toolchain.md) for Gradle, JDK, NDK, Flutter, Dart, and npm version ownership.
 
 ## Build Notes
 

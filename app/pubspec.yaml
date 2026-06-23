@@ -14,7 +14,7 @@ dependencies:
     path: ../agent/core
   flutter_inappwebview: ^5.8.0
   intl: any
-  path_provider: ^2.1.0
+  path_provider: ">=2.1.0 <2.1.6"
 
 dev_dependencies:
   flutter_test:
