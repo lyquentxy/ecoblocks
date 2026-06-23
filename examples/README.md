@@ -1,35 +1,9 @@
-# 示例配置
+# Examples
 
-## 使用场景
+Scenario examples live here. They should demonstrate product use without becoming the core architecture.
 
-### 基础鱼缸
+- `aquarium/`: first scenario.
+- `terrarium/`: future reptile/plant enclosure scenario.
+- `hydroponics/`: future hydroponics scenario.
 
-```json
-规则:
-  1. 恒温 24-28℃ → 加热棒/风扇联动
-  2. 定时灯光 8:00-20:00
-  3. 24小时过滤循环
-  4. 每周推送水温报告
-```
-
-### 水草缸
-
-```json
-规则:
-  1. CO₂ 随光照联动
-  2. 日出日落渐变灯光
-  3. 液肥定时添加提醒
-  4. pH 监测
-```
-
-### 孵化箱
-
-```json
-规则:
-  1. 精准恒温 ±0.5℃
-  2. 湿度维持 80%+
-  3. 翻蛋提醒
-  4. 异常温度告警
-```
-
-> 完整配置文件示例详见本目录下的 JSON 文件。
+Keep example data small and mock-driven until real device profiles are stable.

@@ -1,6 +1,6 @@
 # Android
-android/app/build/
-android/app/.gradle/
+app/android/app/build/
+app/android/app/.gradle/
 android/**/local.properties
 *.apk
 *.aab
@@ -13,8 +13,8 @@ android/**/local.properties
 pubspec.lock
 
 # Blockly
-blockly/node_modules/
-blockly/dist/
+ui/blocks/node_modules/
+ui/blocks/dist/
 
 # App build
 app/build/
@@ -41,10 +41,10 @@ out/
 *.bin
 
 # Hardware design
-hardware/**/*.bak
-hardware/**/*.b#?
-hardware/**/*.s#?
-hardware/**/__Previews/
+agent/devices/**/*.bak
+agent/devices/**/*.b#?
+agent/devices/**/*.s#?
+agent/devices/**/__Previews/
 
 # Python
 __pycache__/
