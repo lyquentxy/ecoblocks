@@ -23,4 +23,10 @@ void main() {
     expect(updateJson['type'], 'sensor_update');
     expect(updateJson['sensor'], isA<Map<String, dynamic>>());
   });
+
+  test('Bridge locale change keeps message minimal', () {
+    final localeJson = const LocaleChanged('en').toJson();
+
+    expect(localeJson, {'type': 'locale_changed', 'locale': 'en'});
+  });
 }

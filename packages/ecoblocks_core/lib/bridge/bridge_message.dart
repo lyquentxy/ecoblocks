@@ -52,6 +52,17 @@ class AgentStatusMessage implements ToBlockly {
       };
 }
 
+class LocaleChanged implements ToBlockly {
+  final String localeCode;
+  const LocaleChanged(this.localeCode);
+
+  @override
+  Map<String, dynamic> toJson() => {
+        'type': 'locale_changed',
+        'locale': localeCode,
+      };
+}
+
 /// Blockly JS -> Dart messages.
 sealed class FromBlockly {
   const FromBlockly();
@@ -63,6 +74,9 @@ sealed class FromBlockly {
           json['block_type'] as String,
         ),
       'rule_changed' => RuleChanged(json['rule_count'] as int),
+      'settings_changed' => SettingsChanged(
+          (json['locale'] ?? '') as String,
+        ),
       _ => UnknownMessage(json),
     };
   }
@@ -77,6 +91,11 @@ class BlockClicked extends FromBlockly {
 class RuleChanged extends FromBlockly {
   final int ruleCount;
   const RuleChanged(this.ruleCount) : super();
+}
+
+class SettingsChanged extends FromBlockly {
+  final String localeCode;
+  const SettingsChanged(this.localeCode) : super();
 }
 
 class UnknownMessage extends FromBlockly {

@@ -42,6 +42,10 @@ class BlocklyBridge {
     _eval(AgentStatusMessage(status, message).toJson());
   }
 
+  void sendLocaleChanged(String localeCode) {
+    _eval(LocaleChanged(localeCode).toJson());
+  }
+
   void _eval(Map<String, dynamic> msg) {
     final json = jsonEncode(msg);
     controller.evaluateJavascript(

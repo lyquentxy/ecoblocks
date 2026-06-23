@@ -1,0 +1,21 @@
+{
+  "@@locale": "zh",
+  "appTitle": "EcoBlocks",
+  "workspaceTitle": "工作区",
+  "settingsTitle": "设置",
+  "languageLabel": "语言",
+  "languageSystem": "跟随系统",
+  "languageChinese": "中文",
+  "languageEnglish": "English",
+  "deepSeekKey": "DeepSeek SK",
+  "apiKeyHint": "sk-...",
+  "save": "保存",
+  "hubStatus": "Hub 状态",
+  "blocklyReady": "Blockly 已就绪",
+  "blocklyWaiting": "等待 Blockly",
+  "aiEnabled": "AI 已启用",
+  "aiDisabled": "Mock Agent",
+  "agentStatusLabel": "Agent",
+  "deviceProfilesLabel": "设备画像",
+  "mockSensorsLabel": "Mock 数据"
+}

@@ -8,9 +8,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
   ecoblocks_core:
     path: ../packages/ecoblocks_core
   flutter_inappwebview: ^5.8.0
+  intl: any
   path_provider: ^2.1.0
 
 dev_dependencies:
@@ -18,11 +21,13 @@ dev_dependencies:
     sdk: flutter
 
 flutter:
+  generate: true
   uses-material-design: true
 
   assets:
     - assets/blockly/index.html
     - assets/blockly/ink_style.css
+    - assets/blockly/ink_background.png
     - assets/blockly/bridge_runtime.js
     - assets/blockly/ecoblocks.js
     - assets/blockly/agent_overlay.js

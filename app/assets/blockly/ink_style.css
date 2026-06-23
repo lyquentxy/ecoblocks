@@ -13,10 +13,12 @@ html,
 body {
   color: var(--ink);
   background:
-    linear-gradient(90deg, rgba(46, 43, 35, .035) 1px, transparent 1px),
-    linear-gradient(0deg, rgba(46, 43, 35, .028) 1px, transparent 1px),
+    linear-gradient(rgba(250, 247, 239, .18), rgba(250, 247, 239, .18)),
+    var(--ecoblocks-ink-bg, url("ink_background.png")),
     var(--ink-paper);
-  background-size: 28px 28px, 28px 28px, auto;
+  background-size: auto, cover, auto;
+  background-position: center, center, center;
+  background-repeat: no-repeat;
   font-family: "LXGW WenKai", "STKaiti", "KaiTi", "Songti SC", system-ui, sans-serif;
 }
 
@@ -30,11 +32,9 @@ body::after {
 
 body::before {
   inset: 0;
-  background:
-    radial-gradient(ellipse at 12% 18%, rgba(31, 44, 39, .13), transparent 34%),
-    radial-gradient(ellipse at 86% 72%, rgba(39, 55, 49, .10), transparent 38%),
-    linear-gradient(135deg, rgba(255,255,255,.18), transparent 58%);
-  filter: blur(12px);
+  background: linear-gradient(90deg, rgba(46, 43, 35, .032) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(46, 43, 35, .026) 1px, transparent 1px);
+  background-size: 28px 28px;
 }
 
 body::after {

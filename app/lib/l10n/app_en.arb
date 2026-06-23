@@ -1,0 +1,21 @@
+{
+  "@@locale": "en",
+  "appTitle": "EcoBlocks",
+  "workspaceTitle": "Workspace",
+  "settingsTitle": "Settings",
+  "languageLabel": "Language",
+  "languageSystem": "System",
+  "languageChinese": "中文",
+  "languageEnglish": "English",
+  "deepSeekKey": "DeepSeek SK",
+  "apiKeyHint": "sk-...",
+  "save": "Save",
+  "hubStatus": "Hub Status",
+  "blocklyReady": "Blockly ready",
+  "blocklyWaiting": "Waiting for Blockly",
+  "aiEnabled": "AI enabled",
+  "aiDisabled": "Mock Agent",
+  "agentStatusLabel": "Agent",
+  "deviceProfilesLabel": "Device profiles",
+  "mockSensorsLabel": "Mock data"
+}

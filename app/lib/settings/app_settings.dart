@@ -5,17 +5,32 @@ import 'package:path_provider/path_provider.dart';
 
 class AppSettings {
   final String deepSeekApiKey;
+  final String localeCode;
 
-  const AppSettings({this.deepSeekApiKey = ''});
+  const AppSettings({
+    this.deepSeekApiKey = '',
+    this.localeCode = '',
+  });
 
   bool get hasDeepSeekKey => deepSeekApiKey.trim().isNotEmpty;
 
+  AppSettings copyWith({
+    String? deepSeekApiKey,
+    String? localeCode,
+  }) =>
+      AppSettings(
+        deepSeekApiKey: deepSeekApiKey ?? this.deepSeekApiKey,
+        localeCode: localeCode ?? this.localeCode,
+      );
+
   Map<String, dynamic> toJson() => {
         'deepseek_sk': deepSeekApiKey,
+        'locale_code': localeCode,
       };
 
   factory AppSettings.fromJson(Map<String, dynamic> json) => AppSettings(
         deepSeekApiKey: (json['deepseek_sk'] ?? '') as String,
+        localeCode: (json['locale_code'] ?? '') as String,
       );
 }
 
