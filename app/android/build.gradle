@@ -12,7 +12,7 @@ subprojects {
     project.evaluationDependsOn(':app')
 }
 
-// AGP 8.x namespace patch for older plugins such as flutter_inappwebview 5.x.
+// AGP 8.x namespace fallback for older transitive plugins that still miss it.
 gradle.projectsEvaluated {
     subprojects { sub ->
         if (sub.plugins.hasPlugin('com.android.library') || sub.plugins.hasPlugin('com.android.application')) {

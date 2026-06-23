@@ -4,11 +4,11 @@ import 'dart:convert';
 import 'package:ecoblocks_core/ecoblocks_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 import '../bridge/blockly_bridge.dart';
 import '../controllers/hub_controller.dart';
+import '../l10n/app_localizations.dart';
 import '../settings/app_settings.dart';
 
 class WorkspacePage extends StatefulWidget {

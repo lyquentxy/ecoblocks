@@ -36,12 +36,12 @@ Current verified window:
 | Runtime JDK for current Gradle | `17.x~21.x` | `21` | Gradle 8.5 can run on JDK 21; AGP 8.x needs modern JDKs, so do not go below 17. |
 | Java/Kotlin bytecode target | `1.8~17` | `1.8` | Keep output conservative for Android device compatibility. |
 | Gradle wrapper | `8.5~8.x` | `8.5` | Current project line. Upgrade only with AGP/Flutter checks. |
-| Android Gradle Plugin | `8.1.x~8.x` | `8.1.0` | Current Flutter template style; verify before moving to AGP 9.x. |
+| Android Gradle Plugin | `8.1.x~8.x` | `8.2.1` | AGP 8.2.1 avoids the JDK 21 jlink/sourceCompatibility issue seen with AGP 8.1.0. |
 | Kotlin Gradle plugin | `1.9.x~2.x` | `1.9.0` | Must match AGP and Gradle, not upgraded alone. |
-| Flutter native plugins | plugin-specific verified range | `flutter_inappwebview: ^5.8.0` | Upgrade with Flutter/Dart/AGP checks, not as a normal Dart-only package. |
+| Flutter native plugins | plugin-specific verified range | `flutter_inappwebview: ^6.1.5` | Upgraded after Flutter 3.44.2 / Dart 3.12.2 verification. |
 | Flutter filesystem plugin | `2.1.0~2.1.5` | `path_provider >=2.1.0 <2.1.6` | Hold below 2.1.6 while modern Android minSdk is 21. |
 | Node.js for Blockly | `24.x LTS` | local developer install | Use the current LTS line for JS tooling. |
-| NDK | exact pin only | `27.2.12479018` | NDK has no LTS line; use exact reproducible versions. |
+| NDK | exact pin only | `28.2.13676358` | Use the installed NDK to avoid SDK Manager download stalls. |
 
 Future modern LTS target:
 
@@ -99,15 +99,30 @@ These packages must be checked against:
 - Kotlin plugin range if the plugin has Kotlin Android code.
 - AndroidX dependency changes.
 
-For `flutter_inappwebview`, the current project pin remains `^5.8.0` until the local Flutter SDK is verified. The current upstream stable line is `6.1.x`, but it requires Dart `^3.5.0`, Flutter `>=3.24.0`, Android `minSdkVersion >= 19`, `compileSdk >= 34`, and AGP `>=7.3.0`. EcoBlocks already has Android `minSdk 21`, `compileSdk 34`, and AGP `8.1.0`; the missing gate is confirming the local Flutter/Dart SDK.
+For `flutter_inappwebview`, the project uses `^6.1.5`. This was verified on Flutter 3.44.2 / Dart 3.12.2. The 6.1.x line requires Dart `^3.5.0`, Flutter `>=3.24.0`, Android `minSdkVersion >= 19`, `compileSdk >= 34`, and AGP `>=7.3.0`. EcoBlocks has Android `minSdk 21`, `compileSdk 34`, and AGP `8.2.1`.
 
-Candidate range after Flutter verification:
+Verified range:
 
 | Package | Range | Gate |
 | --- | --- | --- |
 | `flutter_inappwebview` | `6.1.x~6.1.x` | Flutter `>=3.24.0`, Dart `^3.5.0`, Android compileSdk `34+`, AGP `7.3+` |
 
+Do not use old namespace patch scripts with `flutter_inappwebview` 6.x. The 6.x Android package has its own namespace; old scripts that hard-code a 5.8.0 cache path are stale.
+
 Do not upgrade native plugins together with unrelated UI or docs changes. Make one dependency upgrade commit, run the app, and keep the rollback obvious.
+
+## Flutter 3.44 Run Notes
+
+The following issues were found while running the modern app with Flutter 3.44.2 / Dart 3.12.2.
+
+| Issue | Symptom | Fix |
+| --- | --- | --- |
+| l10n import path | `package:flutter_gen/gen_l10n/...` does not exist. | Import `package:ecoblocks_app/l10n/app_localizations.dart` and generate localization files into `lib/l10n`. |
+| synthetic l10n package | `synthetic-package` is removed in modern Flutter. | Do not rely on `package:flutter_gen`; use project-local l10n output. |
+| `flutter_inappwebview` 5.x | Fails on removed v1 embedding APIs such as `PluginRegistry.Registrar`. | Use `flutter_inappwebview ^6.1.5`. |
+| AGP 8.1.0 + JDK 21 | jlink/sourceCompatibility failure. | Use AGP `8.2.1` while staying on Gradle 8.5. |
+| JDK 25 + Gradle 8.5 | Flutter plugin loader metadata only accepts Java 21. | Use JDK 21 for the current baseline. JDK 25 requires a later Gradle/AGP move. |
+| NDK auto-download | SDK Manager stalls while preparing missing NDK 25.1. | Pin `ndkVersion` to installed `28.2.13676358`. |
 
 ## Current Dependency Watchlist
 
@@ -115,7 +130,7 @@ These are the versions most likely to affect buildability or Android device cove
 
 | Dependency | Current range | Latest checked | Action |
 | --- | --- | --- | --- |
-| `flutter_inappwebview` | `5.8.x~5.x` | `6.1.5` stable, `6.2.0-beta.3` prerelease | Keep 5.x until local Flutter/Dart SDK is confirmed; 6.1.x is a separate upgrade. |
+| `flutter_inappwebview` | `6.1.x~6.1.x` | `6.1.5` stable, `6.2.0-beta.3` prerelease | Current verified line. Avoid beta unless there is a specific WebView bug. |
 | `path_provider` | `2.1.0~2.1.5` | `2.1.6` | Hold `<2.1.6`; latest 2.1.6 raises minimum supported SDK to Flutter 3.38/Dart 3.10 and latest docs show Android support SDK 24+. |
 | `intl` | Flutter-managed | `0.20.2` | Keep `any` because `flutter_localizations` constrains it. Only pin if the solver becomes unstable. |
 | `http` | `1.2.x~1.x` | `1.6.0` | Safe major range for pure Dart core; verify if moving to `2.x`. |
@@ -141,7 +156,7 @@ Never mix all four groups in one commit unless the repository is being intention
 
 The NDK version is pinned in the version catalog even if the current app does not use native C/C++ yet.
 
-Only enable `ndkVersion` in an Android module when that module actually needs native code. This avoids forcing every Flutter build to install an unused NDK.
+The modern app currently sets `ndkVersion` to `28.2.13676358` because that version is installed on the validation machine and avoids a stalled download of Flutter's default NDK. If another machine does not have this version, install the pinned NDK rather than letting Gradle select a different one.
 
 ## Flutter Locks
 
