@@ -3,6 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'controllers/hub_controller.dart';
 import 'l10n/app_localizations.dart';
+import 'pages/settings_routes.dart';
 import 'pages/workspace_page.dart';
 
 void main() {
@@ -18,6 +19,7 @@ class EcoBlocksApp extends StatefulWidget {
 
 class _EcoBlocksAppState extends State<EcoBlocksApp> {
   late final HubController _hubController;
+  final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
 
   @override
   void initState() {
@@ -38,6 +40,7 @@ class _EcoBlocksAppState extends State<EcoBlocksApp> {
       builder: (context, _) {
         final localeCode = _hubController.settings.localeCode;
         return MaterialApp(
+          navigatorKey: _navigatorKey,
           onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
           debugShowCheckedModeBanner: false,
           theme: _buildTheme(Brightness.light),
@@ -57,10 +60,54 @@ class _EcoBlocksAppState extends State<EcoBlocksApp> {
             if (locale?.languageCode == 'en') return const Locale('en');
             return const Locale('zh');
           },
-          home: WorkspacePage(controller: _hubController),
+          onGenerateRoute: _onGenerateRoute,
+          home: WorkspacePage(
+            controller: _hubController,
+            onOpenSettings: _openSettings,
+          ),
         );
       },
     );
+  }
+
+  void _openSettings() {
+    _navigatorKey.currentState?.pushNamed('/settings');
+  }
+
+  Route<dynamic>? _onGenerateRoute(RouteSettings settings) {
+    if (settings.name == '/settings' ||
+        settings.name == '/settings/llm' ||
+        settings.name == '/settings/test') {
+      return PageRouteBuilder<void>(
+        settings: settings,
+        opaque: false,
+        barrierColor: Colors.transparent,
+        pageBuilder: (context, animation, secondaryAnimation) {
+          return SettingsShellPage(
+            controller: _hubController,
+            routeName: settings.name ?? '/settings',
+          );
+        },
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          final curved = CurvedAnimation(
+            parent: animation,
+            curve: Curves.easeOutCubic,
+            reverseCurve: Curves.easeInCubic,
+          );
+          return FadeTransition(
+            opacity: curved,
+            child: SlideTransition(
+              position: Tween<Offset>(
+                begin: const Offset(0.12, 0),
+                end: Offset.zero,
+              ).animate(curved),
+              child: child,
+            ),
+          );
+        },
+      );
+    }
+    return null;
   }
 
   ThemeData _buildTheme(Brightness brightness) {

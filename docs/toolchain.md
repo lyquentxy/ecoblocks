@@ -33,9 +33,9 @@ Current verified window:
 
 | Area | Range | Current pin | Notes |
 | --- | --- | --- | --- |
-| Runtime JDK for current Gradle | `17.x~21.x` | `21` | Gradle 8.5 can run on JDK 21; AGP 8.x needs modern JDKs, so do not go below 17. |
+| Runtime JDK for current Gradle | `17.x~21.x` | `21` | Gradle 8.7 can run on JDK 21; AGP 8.x needs modern JDKs, so do not go below 17. |
 | Java/Kotlin bytecode target | `1.8~17` | `1.8` | Keep output conservative for Android device compatibility. |
-| Gradle wrapper | `8.5~8.x` | `8.5` | Current project line. Upgrade only with AGP/Flutter checks. |
+| Gradle wrapper | `8.7~8.x` | `8.7` | Flutter 3.44 requires Gradle 8.7 or newer. Upgrade further only with AGP/Flutter checks. |
 | Android Gradle Plugin | `8.1.x~8.x` | `8.2.1` | AGP 8.2.1 avoids the JDK 21 jlink/sourceCompatibility issue seen with AGP 8.1.0. |
 | Kotlin Gradle plugin | `1.9.x~2.x` | `1.9.0` | Must match AGP and Gradle, not upgraded alone. |
 | Flutter native plugins | plugin-specific verified range | `flutter_inappwebview: ^6.1.5` | Upgraded after Flutter 3.44.2 / Dart 3.12.2 verification. |
@@ -120,8 +120,9 @@ The following issues were found while running the modern app with Flutter 3.44.2
 | l10n import path | `package:flutter_gen/gen_l10n/...` does not exist. | Import `package:ecoblocks_app/l10n/app_localizations.dart` and generate localization files into `lib/l10n`. |
 | synthetic l10n package | `synthetic-package` is removed in modern Flutter. | Do not rely on `package:flutter_gen`; use project-local l10n output. |
 | `flutter_inappwebview` 5.x | Fails on removed v1 embedding APIs such as `PluginRegistry.Registrar`. | Use `flutter_inappwebview ^6.1.5`. |
-| AGP 8.1.0 + JDK 21 | jlink/sourceCompatibility failure. | Use AGP `8.2.1` while staying on Gradle 8.5. |
-| JDK 25 + Gradle 8.5 | Flutter plugin loader metadata only accepts Java 21. | Use JDK 21 for the current baseline. JDK 25 requires a later Gradle/AGP move. |
+| AGP 8.1.0 + JDK 21 | jlink/sourceCompatibility failure. | Use AGP `8.2.1` while staying on the Gradle 8.x line. |
+| Gradle 8.5 + Flutter 3.44 | Flutter rejects the Android build because the wrapper is below its minimum supported Gradle 8.7. | Use Gradle wrapper `8.7`. |
+| JDK 25 + Gradle 8.x | Flutter plugin loader metadata only accepts Java 21 on the current baseline. | Use JDK 21 for the current baseline. JDK 25 requires a later Gradle/AGP move. |
 | NDK auto-download | SDK Manager stalls while preparing missing NDK 25.1. | Pin `ndkVersion` to installed `28.2.13676358`. |
 
 ## Current Dependency Watchlist

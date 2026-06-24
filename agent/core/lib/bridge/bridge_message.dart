@@ -74,6 +74,7 @@ sealed class FromBlockly {
           json['block_type'] as String,
         ),
       'rule_changed' => RuleChanged(json['rule_count'] as int),
+      'settings_open_requested' => const SettingsOpenRequested(),
       'settings_changed' => SettingsChanged(
           (json['locale'] ?? '') as String,
         ),
@@ -96,6 +97,10 @@ class RuleChanged extends FromBlockly {
 class SettingsChanged extends FromBlockly {
   final String localeCode;
   const SettingsChanged(this.localeCode) : super();
+}
+
+class SettingsOpenRequested extends FromBlockly {
+  const SettingsOpenRequested() : super();
 }
 
 class UnknownMessage extends FromBlockly {

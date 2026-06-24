@@ -5,6 +5,7 @@
 export 'models/mock_device.dart';
 export 'bridge/bridge_message.dart';
 export 'agents/agent_event.dart';
+export 'agents/agent_permissions.dart';
 export 'agents/agent_runtime.dart';
 export 'agents/deepseek_agent.dart';
 export 'agents/device_agent.dart';

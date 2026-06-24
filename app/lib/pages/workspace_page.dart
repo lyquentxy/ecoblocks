@@ -13,8 +13,13 @@ import '../settings/app_settings.dart';
 
 class WorkspacePage extends StatefulWidget {
   final HubController controller;
+  final VoidCallback? onOpenSettings;
 
-  const WorkspacePage({required this.controller, super.key});
+  const WorkspacePage({
+    required this.controller,
+    this.onOpenSettings,
+    super.key,
+  });
 
   @override
   State<WorkspacePage> createState() => _WorkspacePageState();
@@ -83,6 +88,9 @@ class _WorkspacePageState extends State<WorkspacePage> {
         if (msg is RuleChanged) {
           debugPrint('[Blockly] rule count: ${msg.ruleCount}');
         }
+        if (msg is SettingsOpenRequested) {
+          widget.onOpenSettings?.call();
+        }
         if (msg is SettingsChanged &&
             (msg.localeCode == 'zh' || msg.localeCode == 'en')) {
           _saveSettings(
@@ -103,6 +111,9 @@ class _WorkspacePageState extends State<WorkspacePage> {
         data: html,
         mimeType: 'text/html',
         encoding: 'utf-8',
+        baseUrl: WebUri('file:///android_asset/flutter_assets/assets/blockly/'),
+        historyUrl:
+            WebUri('file:///android_asset/flutter_assets/assets/blockly/'),
       );
     }
   }
@@ -236,6 +247,8 @@ class _WorkspacePageState extends State<WorkspacePage> {
                         transparentBackground: true,
                       ),
                       android: AndroidInAppWebViewOptions(
+                        allowFileAccess: true,
+                        allowFileAccessFromFileURLs: true,
                         useHybridComposition: true,
                       ),
                     ),

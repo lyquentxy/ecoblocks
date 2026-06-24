@@ -20,6 +20,16 @@ class DeepSeekConfig {
   });
 }
 
+class DeepSeekConnectionTestResult {
+  final bool success;
+  final String message;
+
+  const DeepSeekConnectionTestResult({
+    required this.success,
+    required this.message,
+  });
+}
+
 class DeepSeekAgent implements DeviceAgent {
   final DeepSeekConfig config;
   final http.Client client;
@@ -75,6 +85,55 @@ class DeepSeekAgent implements DeviceAgent {
       'capability': json['capability'],
       'task': json['task'],
     });
+  }
+
+  Future<DeepSeekConnectionTestResult> testConnection() async {
+    try {
+      final response = await client
+          .post(
+            Uri.parse('${config.baseUrl}/chat/completions'),
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ${config.apiKey}',
+            },
+            body: jsonEncode({
+              'model': config.model,
+              'messages': [
+                {
+                  'role': 'system',
+                  'content': 'You are an EcoBlocks connectivity test.',
+                },
+                {
+                  'role': 'user',
+                  'content': 'Reply with OK.',
+                },
+              ],
+              'stream': false,
+            }),
+          )
+          .timeout(const Duration(seconds: 20));
+
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        return const DeepSeekConnectionTestResult(
+          success: true,
+          message: 'DeepSeek connection OK',
+        );
+      }
+      return DeepSeekConnectionTestResult(
+        success: false,
+        message: 'DeepSeek HTTP ${response.statusCode}',
+      );
+    } on TimeoutException {
+      return const DeepSeekConnectionTestResult(
+        success: false,
+        message: 'DeepSeek request timed out',
+      );
+    } catch (error) {
+      return DeepSeekConnectionTestResult(
+        success: false,
+        message: error.toString(),
+      );
+    }
   }
 
   Map<String, dynamic> buildRequestBody(ScannedDevice device) => {

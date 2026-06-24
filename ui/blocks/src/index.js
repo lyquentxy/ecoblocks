@@ -17,6 +17,7 @@ applyBlocklyLocale(getBlocklyLocale());
 
 const workspace = Blockly.inject('blocklyDiv', {
   renderer: 'ink',
+  media: './media/',
   toolbox: buildToolbox(),
   scrollbars: true,
   trashcan: true,
@@ -54,6 +55,20 @@ window.addEventListener('ecoblocks-message', (e) => {
       applyLocaleToWorkspace();
       break;
   }
+});
+
+let lastSettingsClickAt = 0;
+
+workspace.addChangeListener((event) => {
+  if (event.type !== Blockly.Events.CLICK) return;
+  const blockId = event.blockId;
+  const block = blockId ? workspace.getBlockById(blockId) : null;
+  if (!block || block.type !== 'system_settings') return;
+  const now = Date.now();
+  if (now - lastSettingsClickAt <= 450) {
+    window.EcoBridge.send({ type: 'settings_open_requested' });
+  }
+  lastSettingsClickAt = now;
 });
 
 function buildToolbox() {
@@ -98,7 +113,7 @@ function applyLocaleToWorkspace() {
       setField(block, 'label', t('fan'));
       const stateField = block.getField('state');
       const current = stateField?.getValue();
-      if (current === 'on' || current === '开') {
+      if (current === 'on' || current === '\u5f00') {
         setField(block, 'state', t('on'));
       } else {
         setField(block, 'state', t('off'));
@@ -107,8 +122,6 @@ function applyLocaleToWorkspace() {
     }
     if (block.type === 'system_settings') {
       setField(block, 'label', t('settings'));
-      const language = block.getField('language');
-      if (language) language.setValue(getBlocklyLocale());
       block.setTooltip(t('settings'));
       pinSettingsBlock(block);
     }
@@ -155,8 +168,6 @@ function seedMockBlocks() {
   const settings = workspace.newBlock('system_settings');
   settings.initSvg();
   settings.render();
-  const language = settings.getField('language');
-  if (language) language.setValue(getBlocklyLocale());
   pinSettingsBlock(settings);
 }
 

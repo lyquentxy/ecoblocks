@@ -31,3 +31,4 @@ flutter:
     - assets/blockly/bridge_runtime.js
     - assets/blockly/ecoblocks.js
     - assets/blockly/agent_overlay.js
+    - assets/blockly/media/
