@@ -2,9 +2,11 @@ import 'package:ecoblocks_core/ecoblocks_core.dart';
 import 'package:flutter/foundation.dart';
 
 import '../settings/app_settings.dart';
+import '../settings/local_env.dart';
 
 class HubController extends ChangeNotifier {
   final AppSettingsStore settingsStore;
+  final String localDeepSeekApiKey;
 
   AppSettings _settings = const AppSettings();
   bool _loaded = false;
@@ -15,8 +17,10 @@ class HubController extends ChangeNotifier {
   final Map<String, MockSensor> _mockSensors = {};
   final Map<String, MockActuator> _mockActuators = {};
 
-  HubController({AppSettingsStore? settingsStore})
-      : settingsStore = settingsStore ?? AppSettingsStore();
+  HubController({
+    AppSettingsStore? settingsStore,
+    this.localDeepSeekApiKey = LocalEnv.deepSeekApiKey,
+  }) : settingsStore = settingsStore ?? AppSettingsStore();
 
   AppSettings get settings => _settings;
   bool get loaded => _loaded;
@@ -29,7 +33,11 @@ class HubController extends ChangeNotifier {
       List.unmodifiable(_mockActuators.values);
 
   Future<void> loadSettings() async {
-    _settings = await settingsStore.load();
+    final loaded = await settingsStore.load();
+    final localKey = localDeepSeekApiKey.trim();
+    _settings = loaded.hasDeepSeekKey || localKey.isEmpty
+        ? loaded
+        : loaded.copyWith(deepSeekApiKey: localKey);
     _loaded = true;
     notifyListeners();
   }

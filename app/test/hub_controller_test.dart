@@ -31,6 +31,31 @@ void main() {
     expect(store.value.localeCode, 'en');
   });
 
+  test('HubController uses local DeepSeek key when saved key is empty',
+      () async {
+    final controller = HubController(
+      settingsStore: _MemorySettingsStore(const AppSettings()),
+      localDeepSeekApiKey: ' sk-local ',
+    );
+
+    await controller.loadSettings();
+
+    expect(controller.settings.deepSeekApiKey, 'sk-local');
+  });
+
+  test('HubController keeps saved DeepSeek key over local default', () async {
+    final controller = HubController(
+      settingsStore: _MemorySettingsStore(
+        const AppSettings(deepSeekApiKey: 'sk-saved'),
+      ),
+      localDeepSeekApiKey: 'sk-local',
+    );
+
+    await controller.loadSettings();
+
+    expect(controller.settings.deepSeekApiKey, 'sk-saved');
+  });
+
   test('HubController keeps mock scan state', () {
     final controller = HubController(settingsStore: _MemorySettingsStore(
       const AppSettings(),
