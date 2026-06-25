@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:ecoblocks_core/ecoblocks_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../bridge/blockly_bridge.dart';
 import '../controllers/hub_controller.dart';
@@ -130,7 +132,8 @@ class _WorkspacePageState extends State<WorkspacePage> {
   Future<void> _runAgentScan() async {
     await _agentSub?.cancel();
     final runtime = AgentRuntime(agent: _createAgent());
-    final devices = _mockScan();
+    final devices = await const MockHardwareScanner().scan();
+    await _archiveHardwareSkills(devices);
     widget.controller.startScan('Found ${devices.length} mock devices');
 
     _agentSub = runtime.runScan(devices).listen((event) {
@@ -149,6 +152,22 @@ class _WorkspacePageState extends State<WorkspacePage> {
     });
   }
 
+  Future<void> _archiveHardwareSkills(List<ScannedDevice> devices) async {
+    final documents = await getApplicationDocumentsDirectory();
+    final store = HardwareSkillStore(
+      Directory('${documents.path}/ecoblocks_agent'),
+    );
+    final discovery = HardwareDiscoveryRuntime(
+      scanner: _StaticHardwareScanner(devices),
+      store: store,
+    );
+    for (final result in await discovery.scanOnce()) {
+      debugPrint(
+        '[AgentSkill] ${result.kind} ${result.created ? 'created' : 'found'}: ${result.path}',
+      );
+    }
+  }
+
   DeviceAgent _createAgent() {
     final settings = widget.controller.settings;
     if (settings.hasDeepSeekKey) {
@@ -158,21 +177,6 @@ class _WorkspacePageState extends State<WorkspacePage> {
     }
     return const MockAgent();
   }
-
-  List<ScannedDevice> _mockScan() => const [
-        ScannedDevice(
-          id: 'mock-temp-01',
-          name: 'EB-Temp-01',
-          source: 'mock',
-          raw: {'hint': 'temperature sensor'},
-        ),
-        ScannedDevice(
-          id: 'mock-fan-01',
-          name: 'EB-Fan-01',
-          source: 'mock',
-          raw: {'hint': 'fan actuator'},
-        ),
-      ];
 
   void _applyProfileToMockBlocks(DeviceProfile profile) {
     if (profile.deviceId.contains('temp') || profile.type.contains('temp')) {
@@ -262,6 +266,15 @@ class _WorkspacePageState extends State<WorkspacePage> {
       ),
     );
   }
+}
+
+class _StaticHardwareScanner implements HardwareScanner {
+  final List<ScannedDevice> devices;
+
+  const _StaticHardwareScanner(this.devices);
+
+  @override
+  Future<List<ScannedDevice>> scan() async => devices;
 }
 
 class _BlocklyPane extends StatelessWidget {

@@ -168,13 +168,9 @@ For applications, commit lockfiles for reproducibility.
 
 ## Cache Policy
 
-Before building, run:
-
-```bash
-source setenv.sh
-```
-
-This keeps Gradle, pub, and npm caches under project `.cache/`.
+EcoBlocks no longer requires a repository `setenv.sh` bootstrap step. Build
+machines may use the default Flutter, Gradle, pub, and npm cache locations, or
+configure their own cache policy outside the repo.
 
 ## Upgrade Rule
 

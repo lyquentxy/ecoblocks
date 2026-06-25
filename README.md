@@ -37,11 +37,8 @@ See [docs/toolchain.md](docs/toolchain.md) for Gradle, JDK, NDK, Flutter, Dart, 
 
 ## Build Notes
 
-All tool caches must stay inside project `.cache/`.
-
-```bash
-source setenv.sh
-```
+Use the default Flutter, Gradle, and npm environment for local builds. Linux
+build machines may configure their own caches and SDK paths outside the repo.
 
 Current runnable pieces:
 
