@@ -1,5 +1,12 @@
 # Protocols
 
-Bus protocol notes and experiments.
+Transport and bus protocol notes and experiments.
 
-CAN 2.0B is the current primary direction, with RS-485 Modbus as a fallback. Protocol details remain exploratory until adapter and firmware tests confirm them.
+Current direction:
+
+- BLE is the first low-power node base.
+- Wi-Fi is the high-bandwidth and developer-friendly base.
+- CAN 2.0B and RS-485 Modbus remain future external industrial adapter routes.
+
+Protocol details remain exploratory until real node and adapter tests confirm
+them. Keep payloads mock-minimal until then.

@@ -4,9 +4,10 @@ This directory records bus protocol exploration.
 
 Current direction:
 
-- CAN 2.0B is the primary candidate.
-- RS-485 Modbus remains a fallback.
-- Android connects to one Bus Adapter.
+- BLE is the first low-power node base.
+- Wi-Fi is the high-bandwidth and developer-friendly base.
+- CAN 2.0B and RS-485 Modbus remain future external industrial adapter routes.
+- Android owns the Hub role.
 - Sensor and actuator nodes stay dumb.
 
 Do not freeze frame layouts or detailed payload fields yet. The active data rule is still mock-first:

@@ -15,3 +15,8 @@ export 'agents/hardware_skill_store.dart';
 export 'agents/mock_agent.dart';
 export 'agents/mock_hardware_scanner.dart';
 export 'agents/scanned_device.dart';
+export 'transports/mock_transport.dart';
+export 'transports/transport.dart';
+export 'transports/transport_device.dart';
+export 'transports/transport_message.dart';
+export 'transports/transport_status.dart';
